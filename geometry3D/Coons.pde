@@ -9,6 +9,10 @@ Implementation steps:
 
 */
 //**<01: mouseMoved; 'v', draw: uvShow()
+
+float ball_s = 0.5;  // default position for ball on coonc patch surface.  This will place the ball in the middle.
+float ball_t = 0.5;  // ''
+
 float u=0, v=0; 
 void uvShow() { 
   fill(red);
@@ -54,17 +58,76 @@ void shadeSurface(pt[] P, float e)
         v(coons(P,s,t+e)); 
         endShape(CLOSE);
   
-        pt P_point     = coons(P,s,t);    // Base point
+        // These are the three points we need to compute vectors U and V to obtain normal vector N (othogonal)
+        pt P_point    = coons(P,s,t);    // Base point
         pt U_point    = coons(P,s+e,t);   // U point
         pt V_point    = coons(P,s,t+e);   // V point
-  
+   
         vec U_vector = V(P_point, U_point);  // Vectors to find cross product of
         vec V_vector = V(P_point, V_point);
 
         vec N_normal = N(U_vector, V_vector);  // This is the vector Normal
   
+        // Display all of the vector Normals
         show(P_point,N_normal);
     }
+    
+    // Obtain middle point of coons patch to place ball
+    pt ball_position = coons(P,ball_s,ball_t);
+    float ball_radius = 14;
+    
+    // Let's find the lowest Z value for one of the neighbors of the Ball's location
+    // These are the 4 points adjacent to the ball's location on the coons patch
+    pt A_point    = coons(P,ball_s+e,ball_t);   
+    pt B_point    = coons(P,ball_s,ball_t+e);   
+    pt C_point    = coons(P,ball_s-e,ball_t);  
+    pt D_point    = coons(P,ball_s,ball_t-e);   
+    
+    if(
+          (A_point.z < B_point.z) &&
+          (A_point.z < C_point.z) &&
+          (A_point.z < D_point.z)
+      )
+      {
+         ball_position = A_point;
+      }
+    else if(
+          (B_point.z < A_point.z) &&
+          (B_point.z < C_point.z) &&
+          (B_point.z < D_point.z)
+           )
+     {
+            ball_position = B_point;     
+     }
+     else if(
+          (C_point.z < A_point.z) &&
+          (C_point.z < B_point.z) &&
+          (C_point.z < D_point.z)
+           )
+     {
+            ball_position = C_point;     
+     }
+     else if(
+          (D_point.z < A_point.z) &&
+          (D_point.z < B_point.z) &&
+          (D_point.z < C_point.z)
+           )
+     {
+            ball_position = D_point;     
+     }
+     else
+     {
+     //.. 
+     }
+    
+    // Draw ball onto coons patch
+    fill(red);
+    noStroke();
+    pushMatrix();
+    translate( ball_position.x,  ball_position.y,  ball_position.z + ball_radius);
+    sphere(ball_radius*2);
+    popMatrix();
+    
 }
   
   
