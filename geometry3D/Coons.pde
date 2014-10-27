@@ -43,9 +43,22 @@ void drawBorders(pt[] P){
   beginShape(); for(float t=0; t<1.001; t+=e) v(coons(P,t,1)); endShape();
   }
   
-void shadeSurface(pt[] P, float e){ 
+void shadeSurface(pt[] P, float e)
+{ 
   for(float s=0; s<1.001-e; s+=e) for(float t=0; t<1.001-e; t+=e) 
-  {beginShape(); v(coons(P,s,t)); v(coons(P,s+e,t)); v(coons(P,s+e,t+e)); v(coons(P,s,t+e)); endShape(CLOSE);}
-  }
+  {
+        beginShape(); 
+        v(coons(P,s,t)); 
+        v(coons(P,s+e,t)); 
+        v(coons(P,s+e,t+e)); 
+        v(coons(P,s,t+e)); 
+        endShape(CLOSE);
+  
+        pt vertex_normal_base = coons(P,s,t);
+        vec up_vector         = V(0,0,40);
+  
+        show(vertex_normal_base,up_vector);
+    }
+}
   
   

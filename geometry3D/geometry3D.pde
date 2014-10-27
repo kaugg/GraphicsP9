@@ -120,14 +120,14 @@ void mouseDragged() {
 // **** Header, footer, help text on canvas
 void displayHeader() { // Displays title and authors face on screen
     scribeHeader(title,0); scribeHeaderRight(name); 
-    fill(white); image(myFace, width-myFace.width/2,25,myFace.width/2,myFace.height/2); 
+    fill(white); //image(myFace, width-myFace.width/2,25,myFace.width/2,myFace.height/2); 
     }
 void displayFooter() { // Displays help text at the bottom
     scribeFooter(guide,1); 
     scribeFooter(menu,0); 
     }
 
-String title ="2014: Polyloop Editor in 3D", name ="Jarek Rossignac",
+String title ="2014: Polyloop Editor in 3D", name ="Audrey, Clay, Julio & Kemble",
        menu="?:help, !:picture, ~:(start/stop) capture, space: rotate, s/wheel:closer, f/F: refocus, drag/shift: red xy/z, A:anim, #:quit",
        guide="i:insert, d:delete, .:snap F to vertex, l/L: load, w/W:write to file, q/p:copy"; // user's guide
 
