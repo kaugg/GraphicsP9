@@ -54,10 +54,16 @@ void shadeSurface(pt[] P, float e)
         v(coons(P,s,t+e)); 
         endShape(CLOSE);
   
-        pt vertex_normal_base = coons(P,s,t);
-        vec up_vector         = V(0,0,40);
+        pt P_point     = coons(P,s,t);    // Base point
+        pt U_point    = coons(P,s+e,t);   // U point
+        pt V_point    = coons(P,s,t+e);   // V point
   
-        show(vertex_normal_base,up_vector);
+        vec U_vector = V(P_point, U_point);  // Vectors to find cross product of
+        vec V_vector = V(P_point, V_point);
+
+        vec N_normal = N(U_vector, V_vector);  // This is the vector Normal
+  
+        show(P_point,N_normal);
     }
 }
   
