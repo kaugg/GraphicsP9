@@ -47,7 +47,7 @@ void drawBorders(pt[] P){
   beginShape(); for(float t=0; t<1.001; t+=e) v(coons(P,t,1)); endShape();
   }
   
-void shadeSurface(pt[] P, float e)
+void shadeSurface(pt[] P, float e, boolean ballOn)
 { 
   for(float s=0; s<1.001-e; s+=e) for(float t=0; t<1.001-e; t+=e) 
   {
@@ -57,21 +57,23 @@ void shadeSurface(pt[] P, float e)
         v(coons(P,s+e,t+e)); 
         v(coons(P,s,t+e)); 
         endShape(CLOSE);
+        if(normals)
+        {  
+          // These are the three points we need to compute vectors U and V to obtain normal vector N (othogonal)
+          pt P_point    = coons(P,s,t);    // Base point
+          pt U_point    = coons(P,s+e,t);   // U point
+          pt V_point    = coons(P,s,t+e);   // V point
+     
+          vec U_vector = V(P_point, U_point);  // Vectors to find cross product of
+          vec V_vector = V(P_point, V_point);
   
-        // These are the three points we need to compute vectors U and V to obtain normal vector N (othogonal)
-        pt P_point    = coons(P,s,t);    // Base point
-        pt U_point    = coons(P,s+e,t);   // U point
-        pt V_point    = coons(P,s,t+e);   // V point
-   
-        vec U_vector = V(P_point, U_point);  // Vectors to find cross product of
-        vec V_vector = V(P_point, V_point);
-
-        vec N_normal = N(U_vector, V_vector);  // This is the vector Normal
-  
-        // Display all of the vector Normals
-        show(P_point,N_normal);
-    }
+          vec N_normal = N(U_vector, V_vector);  // This is the vector Normal
     
+          // Display all of the vector Normals
+          show(P_point,N_normal);
+        }
+    }
+    if (ballOn){
     // Obtain middle point of coons patch to place ball
     pt ball_position = coons(P,ball_s,ball_t);
     float ball_radius = 14;
@@ -90,6 +92,7 @@ void shadeSurface(pt[] P, float e)
       )
       {
          ball_position = A_point;
+         ball_s += e;
       }
     else if(
           (B_point.z < A_point.z) &&
@@ -97,7 +100,8 @@ void shadeSurface(pt[] P, float e)
           (B_point.z < D_point.z)
            )
      {
-            ball_position = B_point;     
+            ball_position = B_point; 
+            ball_t += e;    
      }
      else if(
           (C_point.z < A_point.z) &&
@@ -105,7 +109,8 @@ void shadeSurface(pt[] P, float e)
           (C_point.z < D_point.z)
            )
      {
-            ball_position = C_point;     
+            ball_position = C_point;
+            ball_s -= e;     
      }
      else if(
           (D_point.z < A_point.z) &&
@@ -113,21 +118,24 @@ void shadeSurface(pt[] P, float e)
           (D_point.z < C_point.z)
            )
      {
-            ball_position = D_point;     
+            ball_position = D_point;
+            ball_t -= e;     
      }
      else
      {
      //.. 
      }
+    if(ball_t < 0) ball_t = 0; if(ball_t > 1) ball_t = 1; if(ball_s < 0) ball_s = 0; if(ball_s > 1) ball_s = 1;
     
+      
     // Draw ball onto coons patch
     fill(red);
     noStroke();
     pushMatrix();
     translate( ball_position.x,  ball_position.y,  ball_position.z + ball_radius);
-    sphere(ball_radius*2);
+    sphere(ball_radius);
     popMatrix();
-    
+    }  
 }
   
   
