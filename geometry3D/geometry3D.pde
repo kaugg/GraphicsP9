@@ -55,6 +55,7 @@ void draw() {
     noFill(); stroke(blue); strokeWeight(4); drawBorders(PtQ.G);
     strokeWeight(1); noStroke();
     fill(cyan); shadeSurface(PtQ.G,0.1, true);
+    if(normals) drawNormals(PtQ.G, 0.25);
     noFill(); stroke(blue); strokeWeight(2); shadeSurface(PtQ.G,0.1, false);
 
   popMatrix(); // done with 3D drawing. Restore front view for writing text on canvas

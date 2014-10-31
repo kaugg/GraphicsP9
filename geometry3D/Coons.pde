@@ -49,7 +49,7 @@ void drawBorders(pt[] P){
 
 vec normal1(pt[] P, float s, float t){
   //ACxBD for large e
-  float e = 0.1;
+  float e = 0.3;
   pt A = coons(P, s+e, t);
   pt B = coons(P, s, t+e);
   pt C = coons(P, s-e, t);
@@ -61,23 +61,9 @@ vec normal1(pt[] P, float s, float t){
   return N(AC, BD).normalize().mul(30);
 }
 
-vec normal2(pt[] P, float s, float t){
-  //ACxBD for small e
-  float e = 0.001;
-  pt A = coons(P, s+e, t);
-  pt B = coons(P, s, t+e);
-  pt C = coons(P, s-e, t);
-  pt D = coons(P, s, t-e);
-  
-  vec AC = new vec(C.x-A.x, C.y-A.y, C.z-A.z);
-  vec BD = new vec(D.x-B.x, D.y-B.y, D.z-B.z);
-  
-  return N(AC, BD).normalize().mul(25);
-}
-
-vec normal3(pt[] P, float s, float t){
+vec normal2(pt[] P, float s, float t, float e){
   //N=VAxVB + VBxVC + VCxVD + VDxVA
-  float e = 0.001;
+  //float e = 0.3;
   pt V = coons(P, s, t);
   pt A = coons(P, s+e, t);
   pt B = coons(P, s, t+e);
@@ -108,9 +94,11 @@ void shadeSurface(pt[] P, float e, boolean ballOn)
         v(coons(P,s+e,t+e)); 
         v(coons(P,s,t+e)); 
         endShape(CLOSE);
-        if(normals)
+        
+    } 
+    /*if(normals)
         {  
-          /*// These are the three points we need to compute vectors U and V to obtain normal vector N (othogonal)
+          // These are the three points we need to compute vectors U and V to obtain normal vector N (othogonal)
           pt P_point    = coons(P,s,t);    // Base point
           pt U_point    = coons(P,s+e,t);   // U point
           pt V_point    = coons(P,s,t+e);   // V point
@@ -122,16 +110,26 @@ void shadeSurface(pt[] P, float e, boolean ballOn)
     
           // Display all of the vector Normals
           show(P_point,N_normal);
-          */
-          stroke(green);
-          arrow(coons(P, s, t), normal1(P, s, t), .1);
-          stroke(red);
-          arrow(coons(P, s, t), normal2(P, s, t), .1);
-          stroke(blue);
-          arrow(coons(P, s, t), normal3(P, s, t), .1);
           
-        }
-    } 
+          stroke(green);
+          arrow(coons(P, .25, .25), normal1(P, .25, .25), .1);
+          stroke(red);
+          arrow(coons(P, .25, .25), normal2(P, .25, .25, .3), .1);
+          stroke(blue);
+          arrow(coons(P, .25, .25), normal2(P, .25, .25, 0.001), .1);
+          
+        }*/
+}
+
+void drawNormals(pt[] P, float e){
+    for(float s=0; s<=1; s+=e) for(float t=0; t<=1; t+=e) {
+      stroke(green);
+      arrow(coons(P, s, t), normal1(P, s, t), .1);
+      stroke(blue);
+      arrow(coons(P, s, t), normal2(P, s, t, .3), .1);
+      stroke(red);
+      arrow(coons(P, s, t), normal2(P, s, t, 0.001), .1);
+    }
 }
 
 void drawBall(pt[] P, float e)
