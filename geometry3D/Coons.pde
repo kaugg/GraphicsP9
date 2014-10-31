@@ -63,7 +63,6 @@ vec normal1(pt[] P, float s, float t){
 
 vec normal2(pt[] P, float s, float t, float e){
   //N=VAxVB + VBxVC + VCxVD + VDxVA
-  //float e = 0.3;
   pt V = coons(P, s, t);
   pt A = coons(P, s+e, t);
   pt B = coons(P, s, t+e);

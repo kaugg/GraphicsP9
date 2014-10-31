@@ -10,6 +10,7 @@ void setup() {
   size(600, 600, P3D); // p3D means that we will do 3D graphics
   P.declare(); Q.declare(); PtQ.declare(); // P is a polyloop in 3D: declared in pts
   // P.resetOnCircle(12,100); // used to get started if no model exists on file 
+  frameRate(25);
   P.loadPts("data/pts");  // loads saved model from file
   Q.loadPts("data/pts2");  // loads saved model from file
   }
@@ -54,9 +55,10 @@ void draw() {
     PtQ.setToL(P,s,Q); 
     noFill(); stroke(blue); strokeWeight(4); drawBorders(PtQ.G);
     strokeWeight(1); noStroke();
-    fill(cyan); shadeSurface(PtQ.G,0.1, true);
+
+    fill(cyan); shadeSurface(PtQ.G,0.1, false);
     if(normals) drawNormals(PtQ.G, 0.25);
-    noFill(); stroke(blue); strokeWeight(2); shadeSurface(PtQ.G,0.1, false);
+    noFill(); stroke(blue); strokeWeight(2); shadeSurface(PtQ.G,0.1, false); drawBall(PtQ.G, 0.002);
 
   popMatrix(); // done with 3D drawing. Restore front view for writing text on canvas
 
