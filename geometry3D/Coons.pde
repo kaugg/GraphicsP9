@@ -46,7 +46,7 @@ void drawBorders(pt[] P){
   beginShape(); for(float t=0; t<1.001; t+=e) v(coons(P,t,0)); endShape();
   beginShape(); for(float t=0; t<1.001; t+=e) v(coons(P,t,1)); endShape();
   }
-  
+
 void shadeSurface(pt[] P, float e, boolean ballOn)
 { 
   for(float s=0; s<1.001-e; s+=e) for(float t=0; t<1.001-e; t+=e) 
@@ -80,10 +80,10 @@ void shadeSurface(pt[] P, float e, boolean ballOn)
     
     // Let's find the lowest Z value for one of the neighbors of the Ball's location
     // These are the 4 points adjacent to the ball's location on the coons patch
-    pt A_point    = coons(P,ball_s+e,ball_t);   
-    pt B_point    = coons(P,ball_s,ball_t+e);   
-    pt C_point    = coons(P,ball_s-e,ball_t);  
-    pt D_point    = coons(P,ball_s,ball_t-e);   
+    pt A_point    = coons(P,ball_s+e/2.0,ball_t);   
+    pt B_point    = coons(P,ball_s,ball_t+e/2.0);   
+    pt C_point    = coons(P,ball_s-e/2.0,ball_t);  
+    pt D_point    = coons(P,ball_s,ball_t-e/2.0);   
     
     if(
           (A_point.z < B_point.z) &&
