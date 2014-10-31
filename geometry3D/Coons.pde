@@ -47,6 +47,57 @@ void drawBorders(pt[] P){
   beginShape(); for(float t=0; t<1.001; t+=e) v(coons(P,t,1)); endShape();
   }
 
+vec normal1(pt[] P, float s, float t){
+  //ACxBD for large e
+  float e = 0.1;
+  pt A = coons(P, s+e, t);
+  pt B = coons(P, s, t+e);
+  pt C = coons(P, s-e, t);
+  pt D = coons(P, s, t-e);
+  
+  vec AC = new vec(C.x-A.x, C.y-A.y, C.z-A.z);
+  vec BD = new vec(D.x-B.x, D.y-B.y, D.z-B.z);
+  
+  return N(AC, BD).normalize().mul(30);
+}
+
+vec normal2(pt[] P, float s, float t){
+  //ACxBD for small e
+  float e = 0.001;
+  pt A = coons(P, s+e, t);
+  pt B = coons(P, s, t+e);
+  pt C = coons(P, s-e, t);
+  pt D = coons(P, s, t-e);
+  
+  vec AC = new vec(C.x-A.x, C.y-A.y, C.z-A.z);
+  vec BD = new vec(D.x-B.x, D.y-B.y, D.z-B.z);
+  
+  return N(AC, BD).normalize().mul(25);
+}
+
+vec normal3(pt[] P, float s, float t){
+  //N=VAxVB + VBxVC + VCxVD + VDxVA
+  float e = 0.001;
+  pt V = coons(P, s, t);
+  pt A = coons(P, s+e, t);
+  pt B = coons(P, s, t+e);
+  pt C = coons(P, s-e, t);
+  pt D = coons(P, s, t-e);
+  
+  vec VA = new vec(A.x-V.x, A.y-V.y, A.z-V.z);
+  vec VB = new vec(B.x-V.x, B.y-V.y, B.z-V.z);
+  vec VC = new vec(C.x-V.x, C.y-V.y, C.z-V.z);
+  vec VD = new vec(D.x-V.x, D.y-V.y, D.z-V.z);
+  
+  vec VAxVB = N(VA, VB);
+  vec VBxVC = N(VB, VC);
+  vec VCxVD = N(VC, VD);
+  vec VDxVA = N(VD, VA);
+  
+  vec normal = new vec(VAxVB.x + VBxVC.x + VCxVD.x + VDxVA.x, VAxVB.y + VBxVC.y + VCxVD.y + VDxVA.y, VAxVB.z + VBxVC.z + VCxVD.z + VDxVA.z);
+  return normal.normalize().mul(20);
+}
+
 void shadeSurface(pt[] P, float e, boolean ballOn)
 { 
   for(float s=0; s<1.001-e; s+=e) for(float t=0; t<1.001-e; t+=e) 
@@ -59,7 +110,7 @@ void shadeSurface(pt[] P, float e, boolean ballOn)
         endShape(CLOSE);
         if(normals)
         {  
-          // These are the three points we need to compute vectors U and V to obtain normal vector N (othogonal)
+          /*// These are the three points we need to compute vectors U and V to obtain normal vector N (othogonal)
           pt P_point    = coons(P,s,t);    // Base point
           pt U_point    = coons(P,s+e,t);   // U point
           pt V_point    = coons(P,s,t+e);   // V point
@@ -71,6 +122,14 @@ void shadeSurface(pt[] P, float e, boolean ballOn)
     
           // Display all of the vector Normals
           show(P_point,N_normal);
+          */
+          stroke(green);
+          arrow(coons(P, s, t), normal1(P, s, t), .1);
+          stroke(red);
+          arrow(coons(P, s, t), normal2(P, s, t), .1);
+          stroke(blue);
+          arrow(coons(P, s, t), normal3(P, s, t), .1);
+          
         }
     }
     if (ballOn){

@@ -54,7 +54,7 @@ void draw() {
     PtQ.setToL(P,s,Q); 
     noFill(); stroke(blue); strokeWeight(4); drawBorders(PtQ.G);
     strokeWeight(1); noStroke();
-    fill(cyan); shadeSurface(PtQ.G,0.01, true);
+    fill(cyan); shadeSurface(PtQ.G,0.1, true);
     noFill(); stroke(blue); strokeWeight(2); shadeSurface(PtQ.G,0.1, false);
 
   popMatrix(); // done with 3D drawing. Restore front view for writing text on canvas
