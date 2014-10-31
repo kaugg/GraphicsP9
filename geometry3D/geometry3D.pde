@@ -1,6 +1,6 @@
 float dz=0; // distance to camera. Manipulated with wheel or when 
 float rx=-0.06*TWO_PI, ry=-0.04*TWO_PI;    // view angles manipulated when space pressed but not mouse
-Boolean twistFree=false, animating=true, center=true, showControlPolygon=true, normals = false;
+Boolean twistFree=false, animating=true, center=true, showControlPolygon=true, normals = false, showGrid = false;
 float t=0, s=0;
 pt F = P(0,0,0);  // focus point:  the camera is looking at it (moved when 'f or 'F' are pressed
 pt O=P(100,100,0); // red point controlled by the user via mouseDrag : used for inserting vertices ...
@@ -58,7 +58,8 @@ void draw() {
 
     fill(cyan); shadeSurface(PtQ.G,0.1, false);
     if(normals) drawNormals(PtQ.G, 0.25);
-    noFill(); stroke(blue); strokeWeight(2); shadeSurface(PtQ.G,0.1, false); drawBall(PtQ.G, 0.002);
+    if(showGrid){ noFill(); stroke(blue); strokeWeight(2); shadeSurface(PtQ.G,0.1, false); }
+    drawBall(PtQ.G, 0.002);
 
   popMatrix(); // done with 3D drawing. Restore front view for writing text on canvas
 
@@ -91,6 +92,7 @@ void keyPressed() {
   if(key=='a') animating=!animating; // toggle animation
   if(key=='n') normals = !normals;
   if(key=='#') exit();
+  if(key=='g') showGrid = !showGrid;
   change=true;
   }
 
