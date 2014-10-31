@@ -30,7 +30,7 @@ pt coons(pt[] P, float s, float t) {
   pt Lt = L( N( 0,P[0], 1./3,P[1],  2./3,P[2],  1,P[3], s) ,t, N(0,P[9], 1./3,P[8], 2./3,P[7], 1,P[6], s) ) ;
   pt Ls = L( N( 0,P[0], 1./3,P[11], 2./3,P[10], 1,P[9], t) ,s, N(0,P[3], 1./3,P[4], 2./3,P[5] ,1,P[6], t) ) ;
   return P(Ls,V(Lst,Lt));
-  }
+}
 pt B(pt A, pt B, pt C, float s) {return L(L(A,s,B),s,L(B,s,C)); } 
 pt B(pt A, pt B, pt C, pt D, float s) {return L(B(A,B,C,s),s,B(B,C,D,s)); } 
 pt B(pt A, pt B, pt C, pt D, pt E, float s) {return L(B(A,B,C,D,s),s,B(B,C,D,E,s)); } 
@@ -131,18 +131,20 @@ void shadeSurface(pt[] P, float e, boolean ballOn)
           arrow(coons(P, s, t), normal3(P, s, t), .1);
           
         }
-    }
-    if (ballOn){
-    // Obtain middle point of coons patch to place ball
+    } 
+}
+
+void drawBall(pt[] P, float e)
+  {
     pt ball_position = coons(P,ball_s,ball_t);
     float ball_radius = 14;
     
     // Let's find the lowest Z value for one of the neighbors of the Ball's location
     // These are the 4 points adjacent to the ball's location on the coons patch
-    pt A_point    = coons(P,ball_s+e/2.0,ball_t);   
-    pt B_point    = coons(P,ball_s,ball_t+e/2.0);   
-    pt C_point    = coons(P,ball_s-e/2.0,ball_t);  
-    pt D_point    = coons(P,ball_s,ball_t-e/2.0);   
+    pt A_point    = coons(P,ball_s+e,ball_t);   
+    pt B_point    = coons(P,ball_s,ball_t+e);   
+    pt C_point    = coons(P,ball_s-e,ball_t);  
+    pt D_point    = coons(P,ball_s,ball_t-e);   
     
     if(
           (A_point.z < B_point.z) &&
@@ -180,10 +182,6 @@ void shadeSurface(pt[] P, float e, boolean ballOn)
             ball_position = D_point;
             ball_t -= e;     
      }
-     else
-     {
-     //.. 
-     }
     if(ball_t < 0) ball_t = 0; if(ball_t > 1) ball_t = 1; if(ball_s < 0) ball_s = 0; if(ball_s > 1) ball_s = 1;
     
       
@@ -194,7 +192,5 @@ void shadeSurface(pt[] P, float e, boolean ballOn)
     translate( ball_position.x,  ball_position.y,  ball_position.z + ball_radius);
     sphere(ball_radius);
     popMatrix();
-    }  
-}
-  
+ }  
   
