@@ -9,6 +9,7 @@ void setup() {
   myFace = loadImage("data/pic.jpg");  // load image from file pic.jpg in folder data *** replace that file with your pic of your own face
   size(600, 600, P3D); // p3D means that we will do 3D graphics
   P.declare(); Q.declare(); PtQ.declare(); // P is a polyloop in 3D: declared in pts
+  frameRate(25);
   // P.resetOnCircle(12,100); // used to get started if no model exists on file 
   P.loadPts("data/pts");  // loads saved model from file
   Q.loadPts("data/pts2");  // loads saved model from file
@@ -54,7 +55,7 @@ void draw() {
     PtQ.setToL(P,s,Q); 
     noFill(); stroke(blue); strokeWeight(4); drawBorders(PtQ.G);
     strokeWeight(1); noStroke();
-    fill(cyan); shadeSurface(PtQ.G,0.01, true);
+    fill(cyan); shadeSurface(PtQ.G,0.05, false); drawBall(PtQ.G, 0.002); // may need a better sample size
     noFill(); stroke(blue); strokeWeight(2); shadeSurface(PtQ.G,0.1, false);
 
   popMatrix(); // done with 3D drawing. Restore front view for writing text on canvas
@@ -67,6 +68,7 @@ void draw() {
   if(filming && (animating || change)) saveFrame("FRAMES/F"+nf(frameCounter++,4)+".tif");  // save next frame to make a movie
   change=false; // to avoid capturing frames when nothing happens (change is set uppn action)
   uvShow(); //**<01
+  println("FrameRate: ", + frameRate);
   }
   
 void keyPressed() {
