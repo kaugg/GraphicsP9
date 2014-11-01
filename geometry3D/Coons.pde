@@ -83,6 +83,32 @@ vec normal2(pt[] P, float s, float t, float e){
   return normal.normalize().mul(20);
 }
 
+void gouraudShade(pt[]P, float e, boolean ballOn)
+{
+  for(float s=0; s<1.001-e; s+=e) for(float t=0; t<1.001-e; t+=e)
+  {
+
+    pt V1 = coons(P,s,t); 
+    pt V2 = coons(P,s+e,t);
+    pt V3 = coons(P,s+e,t+e);
+    pt V4 = coons(P,s,t+e);
+    
+     
+    // calling normal() for on the vertices determines the lighting effect for each surface. Therefore once we render each vertex, we get a nice smooth shading! 
+    beginShape();
+    normal(V1.x, V1.y, V1.z);
+    v(V1);
+    normal(V2.x, V2.y, V2.z);
+    v(V2);
+    normal(V3.x, V3.y, V3.z);
+    v(V3);
+    normal(V4.x, V4.y, V4.z);
+    v(V4);
+    endShape(CLOSE);   
+     
+  }
+}
+
 void shadeSurface(pt[] P, float e, boolean ballOn)
 { 
   for(float s=0; s<1.001-e; s+=e) for(float t=0; t<1.001-e; t+=e) 
