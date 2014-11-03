@@ -1,6 +1,6 @@
 float dz=0; // distance to camera. Manipulated with wheel or when 
 float rx=-0.06*TWO_PI, ry=-0.04*TWO_PI;    // view angles manipulated when space pressed but not mouse
-Boolean twistFree=false, animating=true, center=true, showControlPolygon=true, normals = false, yourFace = false;
+Boolean twistFree=false, animating=true, center=true, showControlPolygon=true, normals = false, yourFace = false, showGrid = false, gouraud = false;
 float t=0, s=0;
 pt F = P(0,0,0);  // focus point:  the camera is looking at it (moved when 'f or 'F' are pressed
 pt O=P(100,100,0); // red point controlled by the user via mouseDrag : used for inserting vertices ...
@@ -57,10 +57,11 @@ void draw() {
     PtQ.setToL(P,s,Q); 
     noFill(); stroke(blue); strokeWeight(4); drawBorders(PtQ.G);
     strokeWeight(1); noStroke();
-    if(yourFace){drawFace(PtQ.G, 0.1);}
-    else{fill(cyan); shadeSurface(PtQ.G,0.1, false);}
-    if(normals) drawNormals(PtQ.G, 0.25);
     //noFill(); stroke(blue); strokeWeight(2); shadeSurface(PtQ.G,0.1, false); drawBall(PtQ.G, 0.002);
+    if(gouraud) { fill(cyan); gouraudShade(PtQ.G, 0.1, false);} else { fill(cyan); shadeSurface(PtQ.G,0.1, false);} 
+    if(normals) drawNormals(PtQ.G, 0.25);
+    if(showGrid){ noFill(); stroke(blue); strokeWeight(2); shadeSurface(PtQ.G,0.1, false); }
+    drawBall(PtQ.G, 0.002);
 
   popMatrix(); // done with 3D drawing. Restore front view for writing text on canvas
 
@@ -94,6 +95,8 @@ void keyPressed() {
   if(key=='n') normals = !normals;
   if(key=='f') yourFace = !yourFace;
   if(key=='#') exit();
+  if(key=='g') showGrid = !showGrid;
+  if(key=='G') gouraud = !gouraud;
   change=true;
   }
 
