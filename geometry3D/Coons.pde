@@ -120,6 +120,22 @@ void shadeSurface(pt[] P, float e, boolean ballOn)
         }*/
 }
 
+void drawFace(pt[] P, float e)
+{
+    for(float s=0; s<1.001-e; s+=e) for(float t=0; t<1.001-e; t+=e) 
+    {  
+          beginShape(); 
+          texture(img);
+          v(coons(P,s,t)); 
+          v(coons(P,s+e,t)); 
+          v(coons(P,s+e,t+e)); 
+          v(coons(P,s,t+e)); 
+          endShape(CLOSE);
+          
+      } 
+}
+
+
 void drawNormals(pt[] P, float e){
     for(float s=0; s<=1; s+=e) for(float t=0; t<=1; t+=e) {
       stroke(green);
