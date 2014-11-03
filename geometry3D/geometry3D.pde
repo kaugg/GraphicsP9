@@ -9,6 +9,7 @@ PImage img;// = loadImage("data/pic.jpg");
 void setup() {
   myFace = loadImage("data/pic.jpg");  // load image from file pic.jpg in folder data *** replace that file with your pic of your own face
   img = loadImage("data/picture1.jpg");
+  textureMode(NORMAL);
   size(600, 600, P3D); // p3D means that we will do 3D graphics
   P.declare(); Q.declare(); PtQ.declare(); // P is a polyloop in 3D: declared in pts
   // P.resetOnCircle(12,100); // used to get started if no model exists on file 
@@ -58,7 +59,8 @@ void draw() {
     noFill(); stroke(blue); strokeWeight(4); drawBorders(PtQ.G);
     strokeWeight(1); noStroke();
     //noFill(); stroke(blue); strokeWeight(2); shadeSurface(PtQ.G,0.1, false); drawBall(PtQ.G, 0.002);
-    if(gouraud) { fill(cyan); gouraudShade(PtQ.G, 0.1, false);} else { fill(cyan); shadeSurface(PtQ.G,0.1, false);} 
+    if(gouraud) { fill(cyan); gouraudShade(PtQ.G, 0.1, false);} else if(yourFace) { drawFace(PtQ.G, 0.1);} 
+    else { fill(cyan); shadeSurface(PtQ.G,0.1, false);} 
     if(normals) drawNormals(PtQ.G, 0.25);
     if(showGrid){ noFill(); stroke(blue); strokeWeight(2); shadeSurface(PtQ.G,0.1, false); }
     drawBall(PtQ.G, 0.002);
@@ -93,10 +95,10 @@ void keyPressed() {
   if(key=='l') P.loadPts("data/pts"); 
   if(key=='a') animating=!animating; // toggle animation
   if(key=='n') normals = !normals;
-  if(key=='f') yourFace = !yourFace;
+  if(key=='f') { yourFace = !yourFace; gouraud = false; }
   if(key=='#') exit();
   if(key=='g') showGrid = !showGrid;
-  if(key=='G') gouraud = !gouraud;
+  if(key=='G') { gouraud = !gouraud; yourFace = false; }
   change=true;
   }
 
