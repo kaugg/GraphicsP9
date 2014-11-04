@@ -7,8 +7,7 @@ pt O=P(100,100,0); // red point controlled by the user via mouseDrag : used for 
 PImage img;// = loadImage("data/pic.jpg");
 
 void setup() {
-  myFace = loadImage("data/pic.jpg");  // load image from file pic.jpg in folder data *** replace that file with your pic of your own face
-  img = loadImage("data/picture1.jpg");
+  img = loadImage("data/pic2.jpg");
   textureMode(NORMAL);
   size(600, 600, P3D); // p3D means that we will do 3D graphics
   P.declare(); Q.declare(); PtQ.declare(); // P is a polyloop in 3D: declared in pts
@@ -99,6 +98,9 @@ void keyPressed() {
   if(key=='#') exit();
   if(key=='g') showGrid = !showGrid;
   if(key=='G') { gouraud = !gouraud; yourFace = false; }
+  if(key=='1') img = loadImage("data/pic2.jpg");
+  if(key=='2') img = loadImage("data/pic3.jpg");
+  if(key=='3') img = loadImage("data/picture1.jpg");
   change=true;
   }
 
