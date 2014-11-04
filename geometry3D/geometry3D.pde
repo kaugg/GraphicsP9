@@ -101,6 +101,7 @@ void keyPressed() {
   if(key=='1') img = loadImage("data/pic2.jpg");
   if(key=='2') img = loadImage("data/pic3.jpg");
   if(key=='3') img = loadImage("data/picture1.jpg");
+  if(key=='4') img = loadImage("data/audrey.jpg");
   change=true;
   }
 
